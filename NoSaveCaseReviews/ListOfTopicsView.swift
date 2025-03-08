@@ -8,11 +8,34 @@
 import SwiftUI
 
 struct ListOfTopicsView: View {
+    var passedValue: String //Do not initialize; it will be passed from ListOfTopics
+    @Environment(\.dismiss) private var dismiss
+    
+    //TODO: Eventually eliminate test data below
+    var topicToSelect = ["Cardiac",
+                         "Respiratory",
+                         "Shock",
+                         "Trauma"]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                ForEach(topicToSelect, id: \.self) { selected in
+                    NavigationLink {
+                        TopicView(passedValue: "\(selected)")
+                    } label: {
+                        Text(selected)
+                    }
+                }
+            }
+            .navigationTitle("ListOfTopics View")
+            .navigationBarTitleDisplayMode(.automatic)
+            .font(.system(.headline))
+        }
     }
 }
-
-#Preview {
-    ListOfTopicsView()
+struct ListOfTopicsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ListOfTopicsView(passedValue: "")
+    }
 }
